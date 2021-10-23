@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const property = require('./routes/property')
 const db = require('./models/index')
+const ExpressError = require('./utils/ExpressError')
 
 //connecting to the database
 db.connect()
@@ -23,19 +24,13 @@ app.use('/Root/property_image',express.static('Root/property_image'))
 app.use('/property',property)
 
 //Error handling
-app.use((req,res,next)=>{
-    const error = new Error('Resource not found')
-    error.status = 404
-    next(error)
+app.all('*',(req, res, next) =>{
+    next(new ExpressError('Page Not Found',404))
 })
 
 app.use((error,req,res,next) =>{
-    res.status(error.status || 500)
-    res.json({
-        error : {
-            message : error.message
-        }
-    })
+    const { statusCode = 500, message = "Something went wrong" } = error
+    res.status(statusCode).send(message)
 })
 
 

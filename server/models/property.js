@@ -7,8 +7,8 @@ const propertySchema = mongoose.Schema({
     address : {type : String, required : true},
     locality : {type : String, required : true},
     description : {type : String},
-    price : { type : Number},
-    carpetArea : {type : Number},
+    price : { type : Number, required : true},
+    carpetArea : {type : Number, required : true},
     createdOn : { type : Date, default : Date.now() },
     images : [{ type : String}]
 })
