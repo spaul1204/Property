@@ -1,4 +1,4 @@
-const express = require('express')
+
 const Property = require('../models/property')
 const mongoose = require('mongoose')
 const ExpressError = require('../utils/ExpressError')
@@ -59,7 +59,7 @@ const postANewProperty = async(req,res,next)=> {
 
     const { property, address, locality, description, price, carpetArea } = req.body
     const filePaths = []
-
+    console.log("req files ",req.files)
     req.files.forEach( eachFile => filePaths.push(eachFile.path))
 
     if(req.files.length > 5){
@@ -94,7 +94,7 @@ const sliderForPriceRange = async(req,res,next) =>{
      const maxPrice = await Property.find({},{_id : 0, price : 1})
                                     .sort({price : -1})
                                     .limit(1)
- 
+        console.log("price range ",minPrice[0])
      res.status(200).json({minPrice : minPrice[0], maxPrice : maxPrice[0]})
  }
 
